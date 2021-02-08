@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* button effects */
+ .pagination{text-align:center;margin:2rem 0;position:relative;}
+ .step-links a{color:white; border:1px solid black;background-color:black;padding:15px;text-decoration:none; text-transform:uppercase;}
+ span.current{font-size:1.2rem;color:black;font-weight:600;}
+
+</style>
+<body>
+    <div class='pagination'>
+        <span class='step-links'>
+            {% if page.has_previous %}
+            <a href='?page=1'>&laquo; First</a>
+            <a href='?page={{ page.previous_page_number }}'>Previous</a>
+            {% endif %}
+            <span class='current px-5'>
+                Page {{page.number }} of {{ page.paginator.num_pages }}
+            </span>
+            {% if page.has_next %}
+            <a href='?page={{ page.next_page_number }}'> Next</a>
+            <a href='?page={{ page.paginator.num_pages }}'>Last &raquo; </a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>

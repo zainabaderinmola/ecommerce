@@ -1,0 +1,93 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="container">
+
+		<div class="col-lg-12">
+			<div class="box-element">
+
+				<a  class="btn btn-outline-dark" href="{% url 'store:store' %}">&#x2190; Continue Shopping</a>
+
+				<br>
+				<br>
+				<table class="table">
+					<tr>
+						<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
+						<th><h5>Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong></h5></th>
+						<th>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'store:checkout' %}">Checkout</a>
+						</th>
+					</tr>
+				</table>
+
+			</div>
+
+			<br>
+			
+		</div>
+        <div class="table-responsive text-nowrap mt-5">
+
+            <h2>Hi, {{ request.user.username }} ::: Order Summary</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+						<th scope="col">#</th>
+						<th scope='col'>Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Price</th>
+                        <th scope='col'>Quantity</th>
+                        <th scope="col">Total Item Price</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td class='thumbnail'><img src="{% if item.product.image %}{{ item.product.image.url }}  {% else %} {% static 'img/no_image.png' %}{% endif %}"
+							class="img-fluid" style='width:60px;height:60px;' alt="sheela"></td>
+						<td>{{ item.product.name }}</td>
+                        <td>{% if item.product.discount_price %}
+                            ₦{{ item.product.discount_price }}
+                            {% else %}
+                            ₦{{ item.product.price}}
+                            {% endif %}
+                        </td>
+                        <td class='text-uppercase'>
+							<div class="def-number-input number-input safari_only">
+
+                                <a href='#'>
+                                    <i data-product={{item.product.id}} data-action='remove' class="fas fa-minus mr-2 update-cart" style='color:red;'></i></a>
+									{{item.quantity}}
+                                <a href='#'>
+                                    <i data-product={{item.product.id}} data-action='add' class="fas fa-plus ml-2 update-cart" style='color:black;'></i>
+                                </a>
+                            </div>
+						</td>
+						<td>${{item.get_total}}</td>
+                        
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan='5'>Your cart is empty</td>
+                    </tr>
+                    <tr>
+                        <td colspan='5'>
+                            <a class='btn btn-primary float-right' href='/store'>Continue Shopping</a>
+                        </td>
+                    </tr>
+
+                    {% endfor %} 
+                </tbody>
+            </table>
+
+        </div>
+        
+    </div>
+</main>
+	
+{% endblock content %}
